@@ -55,6 +55,7 @@ class GamePole:
         :type size: int
         :param mines: Количество мин на поле.
         :type mines: int
+        :raises ValueError: Количество мин превышает количество клеток на поле.
         """
         self.__size: int = size
         self.__mines: int = mines
@@ -74,7 +75,12 @@ class GamePole:
     def __mine_planting(self) -> None:
         """
         Размещает мины на игровом поле.
+        :raises ValueError: Количество мин превышает количество клеток на поле.
         """
+
+        if self.__mines > self.__size ** 2:
+            raise ValueError("Количество мин превышает количество клеток на поле")
+
         mine_positions: list[int] = random.sample(range(self.__size ** 2), self.__mines)
         for position in mine_positions:
             row: int = position // self.__size
@@ -115,3 +121,5 @@ class GamePole:
             print(*row)
 
 
+p = GamePole(2, 6)
+p.show()
