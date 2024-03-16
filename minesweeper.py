@@ -63,7 +63,7 @@ class GamePole:
 
     def __create_pole(self, size: int) -> None:
         """
-        Создает игровое поле и заполняет его пустыми ячейками.
+        Создает игровое поле.
 
         :param size: Размер стороны игрового поля.
         :type size: int
