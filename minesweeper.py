@@ -75,10 +75,10 @@ class GamePole:
         """
         Размещает мины на игровом поле.
         """
-        mine_positions = random.sample(range(self.__size ** 2), self.__mines)
+        mine_positions: list[int] = random.sample(range(self.__size ** 2), self.__mines)
         for position in mine_positions:
-            row = position // self.__size
-            col = position % self.__size
+            row: int = position // self.__size
+            col: int = position % self.__size
             self.__pole[row][col].mine = True
 
     def __count_mine_in_cell(self) -> None:
@@ -100,7 +100,7 @@ class GamePole:
         :return: Количество мин в соседних клетках.
         :rtype: int
         """
-        count = 0
+        count: int = 0
         for i in range(-1, 2):
             for j in range(-1, 2):
                 if 0 <= row + i < self.__size and 0 <= col + j < self.__size:
