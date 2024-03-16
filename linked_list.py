@@ -64,5 +64,3 @@ class LinkedList:
             result.append(current.data)
             current = current.next
         return result
-
-

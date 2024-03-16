@@ -4,17 +4,17 @@ class Data:
         self.target_ip = target_ip
 
     def __repr__(self) -> str:
-        return self.data
+        return f"Data({self.data}, {self.target_ip})"
 
 
 class Server:
-    __ip_count = 1
+    __get_ip = 1
 
     def __init__(self) -> None:
         self.router = None
         self.buffer = []
-        self.ip = Server.__ip_count
-        Server.__ip_count += 1
+        self.ip = Server.__get_ip
+        Server.__get_ip += 1
 
     def get_ip(self) -> int:
         return self.ip

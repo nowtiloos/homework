@@ -2,12 +2,39 @@ import random
 
 
 class Cell:
-    def __init__(self, around_mines=0, mine=False) -> None:
-        self.around_mines = around_mines
-        self.mine = mine
-        self.fl_open = False
+    """
+    Класс для представления клетки игрового поля.
+
+    :param around_mines: Количество мин вокруг клетки.
+    :type around_mines: int
+    :param mine: Флаг, указывающий наличие мины в клетке.
+    :type mine: bool
+    """
+
+    def __init__(self, around_mines: int = 0, mine: bool = False) -> None:
+        """
+        Инициализация объекта клетки.
+
+        :param around_mines: Количество мин вокруг клетки (по умолчанию 0).
+        :type around_mines: int
+        :param mine: Флаг, указывающий наличие мины в клетке (по умолчанию False).
+        :type mine: bool
+        """
+        self.around_mines: int = around_mines
+        self.mine: bool = mine
+        self.fl_open: bool = False
 
     def __str__(self) -> str:
+        """
+        Возвращает строковое представление клетки.
+
+        Если клетка не открыта, возвращается символ '#'.
+        Если клетка содержит мину, возвращается символ '*'.
+        Если клетка открыта и рядом есть мины, возвращается количество мин вокруг клетки в виде строки.
+
+        :return: Строковое представление клетки.
+        :rtype: str
+        """
         if not self.fl_open:
             return "#"
         elif self.mine:
@@ -17,37 +44,74 @@ class Cell:
 
 
 class GamePole:
-    def __init__(self, size, mines) -> None:
-        self.size = size
-        self.mines = mines
-        self.pole = self.create_pole(size, mines)
+    """
+    Класс для представления игрового поля.
+    """
+    def __init__(self, size: int, mines: int) -> None:
+        """
+        Инициализирует игровое поле.
 
-    def create_pole(self, size, mines) -> list[list[Cell]]:
-        # создаю поле с пустыми ячейками
-        pole = [[Cell() for _ in range(size)] for _ in range(size)]
+        :param size: Размер стороны игрового поля.
+        :type size: int
+        :param mines: Количество мин на поле.
+        :type mines: int
+        """
+        self.__size: int = size
+        self.__mines: int = mines
+        self.__create_pole(size)
 
-        # рандомно заполняю минами
-        mine_positions = random.sample(range(size ** 2), mines)
+    def __create_pole(self, size: int) -> None:
+        """
+        Создает игровое поле и заполняет его пустыми ячейками.
+
+        :param size: Размер стороны игрового поля.
+        :type size: int
+        """
+        self.__pole: list[list[Cell]] = [[Cell() for _ in range(size)] for _ in range(size)]
+        self.__mine_planting()
+        self.__count_mine_in_cell()
+
+    def __mine_planting(self) -> None:
+        """
+        Размещает мины на игровом поле.
+        """
+        mine_positions = random.sample(range(self.__size ** 2), self.__mines)
         for position in mine_positions:
-            row = position // size
-            col = position % size
-            pole[row][col].mine = True
+            row = position // self.__size
+            col = position % self.__size
+            self.__pole[row][col].mine = True
 
-        # считаю количество мин в соседних ячейках
-        for row in range(size):
-            for col in range(size):
-                pole[row][col].around_mines = self.count_mines(pole, row, col)
+    def __count_mine_in_cell(self) -> None:
+        """
+        Считает количество мин в соседних ячейках для каждой клетки игрового поля.
+        """
+        for row in range(self.__size):
+            for col in range(self.__size):
+                self.__pole[row][col].around_mines = self.__count_mines(row, col)
 
-        return pole
+    def __count_mines(self, row, col) -> int:
+        """
+        Считает количество мин в соседних ячейках для указанной клетки.
 
-    def count_mines(self, pole, row, col) -> int:
+        :param row: Номер строки клетки.
+        :type row: int
+        :param col: Номер столбца клетки.
+        :type col: int
+        :return: Количество мин в соседних клетках.
+        :rtype: int
+        """
         count = 0
         for i in range(-1, 2):
             for j in range(-1, 2):
-                if 0 <= row + i < self.size and 0 <= col + j < self.size:
-                    count += pole[row + i][col + j].mine
+                if 0 <= row + i < self.__size and 0 <= col + j < self.__size:
+                    count += self.__pole[row + i][col + j].mine
         return count
 
     def show(self) -> None:
-        for row in self.pole:
+        """
+        Выводит игровое поле на экран.
+        """
+        for row in self.__pole:
             print(*row)
+
+
