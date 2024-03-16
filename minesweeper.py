@@ -121,5 +121,3 @@ class GamePole:
             print(*row)
 
 
-p = GamePole(2, 6)
-p.show()
