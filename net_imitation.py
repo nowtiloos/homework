@@ -67,7 +67,7 @@ class Server:
         Получает данные из буфера сервера.
 
         :return: Список объектов Data из буфера сервера.
-        :rtype: list
+        :rtype: list[Data]
         """
         result: list[Data] = self.buffer[:]
         self.buffer.clear()
