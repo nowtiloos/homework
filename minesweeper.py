@@ -70,7 +70,7 @@ class GamePole:
         """
         self.__pole: list[list[Cell]] = [[Cell() for _ in range(size)] for _ in range(size)]
         self.__mine_planting()
-        self.__count_mine_in_cell()
+        self.__around_mine_setter()
 
     def __mine_planting(self) -> None:
         """
@@ -87,9 +87,9 @@ class GamePole:
             col: int = position % self.__size
             self.__pole[row][col].mine = True
 
-    def __count_mine_in_cell(self) -> None:
+    def __around_mine_setter(self) -> None:
         """
-        Считает количество мин в соседних ячейках для каждой клетки игрового поля.
+        Устанавливает параметр количества мин в соседних ячейках для каждой клетки игрового поля.
         """
         for row in range(self.__size):
             for col in range(self.__size):
