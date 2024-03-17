@@ -20,6 +20,7 @@ class Cell:
         :param mine: Флаг, указывающий наличие мины в клетке (по умолчанию False).
         :type mine: bool
         """
+
         self.around_mines: int = around_mines
         self.mine: bool = mine
         self.fl_open: bool = False
@@ -30,11 +31,13 @@ class Cell:
 
         Если клетка не открыта, возвращается символ '#'.
         Если клетка содержит мину, возвращается символ '*'.
-        Если клетка открыта и рядом есть мины, возвращается количество мин вокруг клетки в виде строки.
+        Если клетка открыта и рядом есть мины,
+        возвращается количество мин вокруг клетки в виде строки.
 
         :return: Строковое представление клетки.
         :rtype: str
         """
+
         if not self.fl_open:
             return "#"
         elif self.mine:
@@ -47,6 +50,7 @@ class GamePole:
     """
     Класс для представления игрового поля.
     """
+
     def __init__(self, size: int, mines: int) -> None:
         """
         Инициализирует игровое поле.
@@ -57,6 +61,7 @@ class GamePole:
         :type mines: int
         :raises ValueError: Количество мин превышает количество клеток на поле.
         """
+
         self.__size: int = size
         self.__mines: int = mines
         self.__create_pole(size)
@@ -68,7 +73,10 @@ class GamePole:
         :param size: Размер стороны игрового поля.
         :type size: int
         """
-        self.__pole: list[list[Cell]] = [[Cell() for _ in range(size)] for _ in range(size)]
+
+        self.__pole: list[list[Cell]] = [
+            [Cell() for _ in range(size)] for _ in range(size)
+        ]
         self.__mine_planting()
         self.__around_mine_setter()
 
@@ -78,10 +86,10 @@ class GamePole:
         :raises ValueError: Количество мин превышает количество клеток на поле.
         """
 
-        if self.__mines > self.__size ** 2:
+        if self.__mines > self.__size**2:
             raise ValueError("Количество мин превышает количество клеток на поле")
 
-        mine_positions: list[int] = random.sample(range(self.__size ** 2), self.__mines)
+        mine_positions: list[int] = random.sample(range(self.__size**2), self.__mines)
         for position in mine_positions:
             row: int = position // self.__size
             col: int = position % self.__size
@@ -91,6 +99,7 @@ class GamePole:
         """
         Устанавливает параметр количества мин в соседних ячейках для каждой клетки игрового поля.
         """
+
         for row in range(self.__size):
             for col in range(self.__size):
                 self.__pole[row][col].around_mines = self.__count_mines(row, col)
@@ -106,6 +115,7 @@ class GamePole:
         :return: Количество мин в соседних клетках.
         :rtype: int
         """
+
         count: int = 0
         for i in range(-1, 2):
             for j in range(-1, 2):
@@ -117,7 +127,6 @@ class GamePole:
         """
         Выводит игровое поле на экран.
         """
+
         for row in self.__pole:
             print(*row)
-
-

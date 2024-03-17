@@ -5,6 +5,7 @@ class ObjList:
     """
     Класс для представления объекта в связанном списке.
     """
+
     def __init__(self, data: Any) -> None:
         """
         Инициализирует объект списка.
@@ -12,49 +13,54 @@ class ObjList:
         :param data: Данные объекта.
         :type data: Any
         """
+
         self.data: Any = data
-        self.__next: Optional['ObjList'] = None
-        self.__prev: Optional['ObjList'] = None
+        self.__next: Optional["ObjList"] = None
+        self.__prev: Optional["ObjList"] = None
 
     @property
-    def next(self) -> Optional['ObjList']:
+    def next(self) -> Optional["ObjList"]:
         """
         Получает следующий объект в списке.
 
         :return: Следующий объект.
         :rtype: Optional['ObjList']
         """
+
         return self.__next
 
     @next.setter
-    def next(self, obj: Optional['ObjList']) -> None:
+    def next(self, obj: Optional["ObjList"]) -> None:
         """
         Устанавливает следующий объект в списке.
 
         :param obj: Следующий объект.
         :rtype: Optional['ObjList']
         """
-        self.__next: Optional['ObjList'] = obj
+
+        self.__next: Optional["ObjList"] = obj
 
     @property
-    def prev(self) -> Optional['ObjList']:
+    def prev(self) -> Optional["ObjList"]:
         """
         Получает предыдущий объект в списке.
 
         :return: Предыдущий объект.
         :rtype: Optional['ObjList']
         """
+
         return self.__prev
 
     @prev.setter
-    def prev(self, obj: Optional['ObjList']) -> None:
+    def prev(self, obj: Optional["ObjList"]) -> None:
         """
         Устанавливает предыдущий объект в списке.
 
         :param obj: Предыдущий объект.
         :rtype: Optional['ObjList']
         """
-        self.__prev: Optional['ObjList'] = obj
+
+        self.__prev: Optional["ObjList"] = obj
 
     @property
     def data(self) -> Any:
@@ -64,6 +70,7 @@ class ObjList:
         :return: Данные объекта.
         :rtype: Any
         """
+
         return self.__data
 
     @data.setter
@@ -74,6 +81,7 @@ class ObjList:
         :param data: Данные объекта.
         :type data: Any
         """
+
         self.__data: Any = data
 
     def __repr__(self) -> str:
@@ -83,6 +91,7 @@ class ObjList:
         :return: Строковое представление объекта.
         :rtype: str
         """
+
         return f"ObjList({self.data})"
 
 
@@ -90,10 +99,12 @@ class LinkedList:
     """
     Класс для представления связанного списка объектов.
     """
+
     def __init__(self) -> None:
         """
         Инициализирует пустой связанный список.
         """
+
         self.head: Optional[ObjList] = None
         self.tail: Optional[ObjList] = None
 
@@ -104,6 +115,7 @@ class LinkedList:
         :param obj: Добавляемый объект.
         :raises ValueError: Если переданный объект не является экземпляром ObjList.
         """
+
         if not isinstance(obj, ObjList):
             raise ValueError("Неверный тип объекта")
         else:
@@ -117,6 +129,7 @@ class LinkedList:
         """
         Удаляет последний объект из связанного списка.
         """
+
         if self.tail:
             if self.head == self.tail:
                 self.head = self.tail = None
@@ -133,6 +146,7 @@ class LinkedList:
         :return: Список данных объектов.
         :rtype: list[Optional[ObjList]]
         """
+
         current: Optional[ObjList] = self.head
         result: list[Optional[ObjList]] = []
         while current:

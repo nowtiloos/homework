@@ -15,6 +15,7 @@ class Data:
         :param target_ip: Целевой IP-адрес сервера.
         :type target_ip: int
         """
+
         self.data: Any = data
         self.target_ip: int = target_ip
 
@@ -25,6 +26,7 @@ class Data:
         :return: Строковое представление объекта Data.
         :rtype: str
         """
+
         return f"Data({self.data}, {self.target_ip})"
 
 
@@ -32,6 +34,7 @@ class Server:
     """
     Класс для представления сервера.
     """
+
     __get_ip: int = 1
 
     def __init__(self) -> None:
@@ -39,6 +42,7 @@ class Server:
         Инициализирует экземпляр класса Server.
         По умолчанию сервер не связан с маршрутизатором, а его буфер пуст.
         """
+
         self.router: Router | None = None
         self.buffer: list = []
         self.ip: int = Server.__get_ip
@@ -51,6 +55,7 @@ class Server:
         :return: IP-адрес сервера.
         :rtype: int
         """
+
         return self.ip
 
     def send_data(self, data: Data) -> None:
@@ -60,6 +65,7 @@ class Server:
         :param data: Данные для отправки.
         :type data: Data
         """
+
         self.router.buffer.append(data)
 
     def get_data(self) -> list[Data]:
@@ -69,6 +75,7 @@ class Server:
         :return: Список объектов Data из буфера сервера.
         :rtype: list[Data]
         """
+
         result: list[Data] = self.buffer[:]
         self.buffer.clear()
         return result
@@ -78,10 +85,12 @@ class Router:
     """
     Класс для представления маршрутизатора
     """
+
     def __init__(self) -> None:
         """
         Инициализирует экземпляр класса Router.
         """
+
         self.net: dict = {}
         self.buffer: list = []
 
@@ -92,6 +101,7 @@ class Router:
         :param server: Сервер для установки соединения.
         :type server: Server
         """
+
         self.net.setdefault(server.ip, server.buffer)
         server.router = self
 
@@ -102,6 +112,7 @@ class Router:
         :param server: Сервер для разрыва соединения.
         :type server: Server
         """
+
         server.router = None
         self.net.pop(server.ip)
 
@@ -109,6 +120,7 @@ class Router:
         """
         Пересылает данные из буфера маршрутизатора на соответствующие серверы.
         """
+
         for data in self.buffer:
             self.net[data.target_ip].append(data)
 
